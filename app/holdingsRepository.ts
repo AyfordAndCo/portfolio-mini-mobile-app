@@ -65,6 +65,18 @@ function mapSnapshot(snapshot: QuerySnapshot<DocumentData>): PortfolioHolding[] 
   return snapshot.docs.map((holdingDoc) => mapHoldingDoc(holdingDoc.id, holdingDoc.data()));
 }
 
+function serializeHoldingInput(input: HoldingInput): DocumentData {
+  return input.notes === undefined
+    ? {
+        ticker: input.ticker,
+        name: input.name,
+        quantity: input.quantity,
+        averagePurchasePrice: input.averagePurchasePrice,
+        currentPrice: input.currentPrice,
+      }
+    : input;
+}
+
 export async function ensureSeedHoldings(db: Firestore, uid: string): Promise<void> {
   const metaRef = doc(db, USERS_COLLECTION, uid, 'portfolioMeta', 'holdingsSeed');
   const seedMeta = await getDoc(metaRef);
@@ -116,7 +128,7 @@ export async function addHolding(
   input: HoldingInput,
 ): Promise<void> {
   await addDoc(getHoldingsCollection(db, uid), {
-    ...input,
+    ...serializeHoldingInput(input),
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
@@ -129,7 +141,7 @@ export async function updateHolding(
   input: HoldingInput,
 ): Promise<void> {
   await updateDoc(doc(db, USERS_COLLECTION, uid, HOLDINGS_COLLECTION, holdingId), {
-    ...input,
+    ...serializeHoldingInput(input),
     updatedAt: serverTimestamp(),
   });
 }
