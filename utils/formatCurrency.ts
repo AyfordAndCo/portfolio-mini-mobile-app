@@ -1,9 +1,8 @@
-const zarCurrency = new Intl.NumberFormat('en-ZA', {
-  style: 'currency',
-  currency: 'ZAR',
-  maximumFractionDigits: 0,
+const randAmount = new Intl.NumberFormat('en-US', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
 });
 
 export function formatCurrency(value: number): string {
-  return zarCurrency.format(value);
+  return `R ${randAmount.format(value)}`;
 }

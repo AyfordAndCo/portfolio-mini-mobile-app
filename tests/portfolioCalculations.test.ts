@@ -2,6 +2,7 @@ import {
   getHoldingCostBasis,
   getHoldingMarketValue,
   getHoldingProfitLoss,
+  getProfitLossPercentage,
   getPortfolioSummary,
 } from '../app/portfolioCalculations';
 import type { PortfolioHolding } from '../types/portfolio';
@@ -35,6 +36,15 @@ const abgHolding: PortfolioHolding = {
   currentPrice: 182.5,
 };
 
+const ticketHolding: PortfolioHolding = {
+  id: 'all-232',
+  ticker: 'JSE:TST',
+  name: 'Calculation Test Holding',
+  quantity: 10,
+  averagePurchasePrice: 20,
+  currentPrice: 25,
+};
+
 const tests: TestCase[] = [
   {
     name: 'calculates market value from manual quantity and current price',
@@ -62,6 +72,36 @@ const tests: TestCase[] = [
       assertEqual(summary.marketValue, 1796.25, 'Expected total market value.');
       assertEqual(summary.costBasis, 1720, 'Expected total cost basis.');
       assertEqual(summary.profitLoss, 76.25, 'Expected total profit/loss.');
+    },
+  },
+  {
+    name: 'recalculates ticket totals after create, update, and delete operations',
+    run: () => {
+      const createdSummary = getPortfolioSummary([ticketHolding]);
+
+      assertEqual(createdSummary.costBasis, 200, 'Expected created cost value.');
+      assertEqual(createdSummary.marketValue, 250, 'Expected created market value.');
+      assertEqual(createdSummary.profitLoss, 50, 'Expected created profit.');
+      assertEqual(getProfitLossPercentage(createdSummary), 25, 'Expected created profit percentage.');
+
+      const updatedHolding: PortfolioHolding = {
+        ...ticketHolding,
+        quantity: 12,
+        currentPrice: 30,
+      };
+      const updatedSummary = getPortfolioSummary([updatedHolding]);
+
+      assertEqual(updatedSummary.costBasis, 240, 'Expected updated cost value.');
+      assertEqual(updatedSummary.marketValue, 360, 'Expected updated market value.');
+      assertEqual(updatedSummary.profitLoss, 120, 'Expected updated profit.');
+      assertEqual(getProfitLossPercentage(updatedSummary), 50, 'Expected updated profit percentage.');
+
+      const deletedSummary = getPortfolioSummary([]);
+
+      assertEqual(deletedSummary.costBasis, 0, 'Expected deleted cost value.');
+      assertEqual(deletedSummary.marketValue, 0, 'Expected deleted market value.');
+      assertEqual(deletedSummary.profitLoss, 0, 'Expected deleted profit.');
+      assertEqual(getProfitLossPercentage(deletedSummary), 0, 'Expected deleted profit percentage.');
     },
   },
 ];

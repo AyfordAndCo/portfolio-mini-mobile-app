@@ -27,3 +27,11 @@ export function getPortfolioSummary(holdings: PortfolioHolding[]): PortfolioSumm
     { marketValue: 0, costBasis: 0, profitLoss: 0 },
   );
 }
+
+export function getProfitLossPercentage(summary: PortfolioSummary): number {
+  if (summary.costBasis === 0) {
+    return 0;
+  }
+
+  return (summary.profitLoss / summary.costBasis) * 100;
+}
