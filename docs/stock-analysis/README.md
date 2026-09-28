@@ -15,7 +15,7 @@ Design documents for adding analysis of individual company shares and exchange-t
 
 ## Status
 
-Draft for review. The provider, supported exchanges, data latency, analysis objectives, navigation library, and any score weights remain decision gates. This design supports both individual company shares and ETFs and does not assume automatic trading.
+The first release is scoped to JSE-listed ordinary shares and ETFs, including JSE-listed funds with international underlying exposure. Direct US-listed securities and broader global exchange coverage are deferred to [backlog issue #12](https://github.com/AyfordAndCo/portfolio-mini-mobile-app/issues/12). Provider selection, data display rights, latency/update cadence, analysis objectives, navigation library, and any score weights remain decision gates. The app does not make automatic trades.
 
 ## Repository context
 
