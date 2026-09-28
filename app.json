@@ -6,7 +6,8 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "android": {
-      "package": "com.allanayford.portfoliomini"
+      "package": "com.allanayford.portfoliomini",
+      "versionCode": 3
     },
     "extra": {
       "eas": {

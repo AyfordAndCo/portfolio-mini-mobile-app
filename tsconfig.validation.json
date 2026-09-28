@@ -11,7 +11,9 @@
   },
   "include": [
     "app/authValidation.ts",
+    "app/firebaseConfig.ts",
     "app/portfolioCalculations.ts",
+    "env.d.ts",
     "tests/**/*.test.ts"
   ]
 }

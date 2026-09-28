@@ -8,7 +8,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "tsc -p tsconfig.validation.json && node dist-validation/tests/authValidation.test.js && node dist-validation/tests/portfolioCalculations.test.js",
+    "test": "tsc -p tsconfig.validation.json && node dist-validation/tests/authValidation.test.js && node dist-validation/tests/firebaseConfig.test.js && node dist-validation/tests/portfolioCalculations.test.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
