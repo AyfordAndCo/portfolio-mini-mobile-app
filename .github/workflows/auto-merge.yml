@@ -29,6 +29,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
           REPOSITORY: ${{ github.repository }}
         run: |
           pull_requests="$(
@@ -38,12 +39,14 @@ jobs:
           pr_number="$(
             jq -r \
               --arg head_sha "$HEAD_SHA" \
+              --arg head_branch "$HEAD_BRANCH" \
               --arg repository "$REPOSITORY" \
               '[.[] | select(
                 .base.ref == "develop" and
                 .state == "open" and
                 .draft == false and
                 .head.sha == $head_sha and
+                .head.ref == $head_branch and
                 .head.repo.full_name == $repository
               )][0].number // empty' \
               <<< "$pull_requests"
@@ -63,4 +66,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
-        run: gh pr merge "${{ steps.pr.outputs.number }}" --repo "$REPOSITORY" --squash --delete-branch
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+        run: gh pr merge "$PR_NUMBER" --repo "$REPOSITORY" --squash --delete-branch
