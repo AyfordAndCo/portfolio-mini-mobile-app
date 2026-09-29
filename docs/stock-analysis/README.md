@@ -12,6 +12,7 @@ Design documents for adding analysis of individual company shares and exchange-t
 6. [Wireframes and UI/UX system](wireframes-and-ui-ux.md)
 7. [Implementation plan (SA-PLAN-01)](implementation-plan.md)
 8. [Folder structure plan (SA-FS-01)](folder-structure-plan.md)
+9. [JSE market-data provider decision (M0 / issue #13)](provider-decision.md)
 
 ## Status
 
